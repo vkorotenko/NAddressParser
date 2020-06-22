@@ -29,5 +29,9 @@ namespace NAddressParser
         /// Объекты
         /// </summary>
         public const string Objects = "objects.json";
+        /// <summary>
+        /// Архив объектов
+        /// </summary>
+        public const string ObjectsZip = "objects.zip";
     }
 }

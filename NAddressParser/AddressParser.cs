@@ -6,9 +6,11 @@
 // // Создано:  20.06.2020 14:04
 #endregion
 
+using System;
 using NAddressParser.Models;
 using Newtonsoft.Json;
 using System.IO;
+using System.IO.Compression;
 
 namespace NAddressParser
 {
@@ -38,15 +40,26 @@ namespace NAddressParser
             var data = File.ReadAllText(Path.Combine(DictionaryPath, FileNames.Cities));
             Cities = JsonConvert.DeserializeObject<City[]>(data);
 
-            data = File.ReadAllText(Path.Combine(DictionaryPath, FileNames.Objects));
-            Entries = JsonConvert.DeserializeObject<FiasEntry[]>(data);
-
             data = File.ReadAllText(Path.Combine(DictionaryPath, FileNames.Regions));
             Regions = JsonConvert.DeserializeObject<Region[]>(data);
 
             data = File.ReadAllText(Path.Combine(DictionaryPath, FileNames.SocrName));
             Socrs = JsonConvert.DeserializeObject<Socr[]>(data);
 
+
+            using (var archive = ZipFile.OpenRead(Path.Combine(DictionaryPath, FileNames.ObjectsZip)))
+            {
+                foreach (var entry in archive.Entries)
+                {
+                    if (entry.FullName.EndsWith(FileNames.Objects, StringComparison.OrdinalIgnoreCase))
+                    {
+                        using (var reader = new StreamReader(entry.Open()))
+                        {
+                            Entries = JsonConvert.DeserializeObject<FiasEntry[]>(reader.ReadToEnd());
+                        }
+                    }
+                }
+            }
         }
         /// <summary>
         /// Путь к словарям библиотеки

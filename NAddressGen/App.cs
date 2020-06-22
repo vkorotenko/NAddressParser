@@ -16,6 +16,7 @@ using NAddressParser.Models;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -77,7 +78,11 @@ namespace NAddressGen
         private static void SaveFiasObjects(FiasEntry[] entrys)
         {
             var result = JsonConvert.SerializeObject(entrys, Formatting.Indented);
-            File.WriteAllText(Path.Combine(BaseDir, FileNames.Objects), result);
+            using var zipStream = new FileStream(Path.Combine(BaseDir,FileNames.ObjectsZip), FileMode.Create);
+            using var archive = new ZipArchive(zipStream, ZipArchiveMode.Update);
+            var readmeEntry = archive.CreateEntry(FileNames.Objects,CompressionLevel.Optimal);
+            using var writer = new StreamWriter(readmeEntry.Open());
+            writer.Write(result);
         }
     }
 }
