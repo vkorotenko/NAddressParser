@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NAddressParser", "NAddressParser\NAddressParser.csproj", "{E33E2B56-49D0-4FD2-ABE1-617B797C6B0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0B8EBA93-56F9-4219-BD63-C335DDF0E82E}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAddressGen", "NAddressGen\NAddressGen.csproj", "{CD42065C-6899-47A2-B1C8-5CAF5F0A91CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAddressParser.Tests", "NAddressParser.Tests\NAddressParser.Tests.csproj", "{72EEDA8C-9515-4C17-8FC0-9164250A43EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E33E2B56-49D0-4FD2-ABE1-617B797C6B0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E33E2B56-49D0-4FD2-ABE1-617B797C6B0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E33E2B56-49D0-4FD2-ABE1-617B797C6B0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E33E2B56-49D0-4FD2-ABE1-617B797C6B0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD42065C-6899-47A2-B1C8-5CAF5F0A91CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD42065C-6899-47A2-B1C8-5CAF5F0A91CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD42065C-6899-47A2-B1C8-5CAF5F0A91CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD42065C-6899-47A2-B1C8-5CAF5F0A91CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72EEDA8C-9515-4C17-8FC0-9164250A43EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EEDA8C-9515-4C17-8FC0-9164250A43EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EEDA8C-9515-4C17-8FC0-9164250A43EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EEDA8C-9515-4C17-8FC0-9164250A43EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45380523-D6E8-4307-86D6-34A226DCA824}
+	EndGlobalSection
+EndGlobal
