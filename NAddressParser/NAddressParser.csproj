@@ -7,7 +7,7 @@
     <PackageId>NAddressParser</PackageId>
     <PackageVersion>0.1.0</PackageVersion>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageTags>russian adddress offline normalization</PackageTags>
+    <PackageTags>russian address offline normalization</PackageTags>
     <PackageProjectUrl>https://github.com/vkorotenko/NAddressParser</PackageProjectUrl>
     <RepositoryUrl>https://github.com/vkorotenko/NAddressParser</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -61,12 +61,6 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Data\" />
   </ItemGroup>
@@ -92,13 +86,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\objects.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\regions.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\socr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NAddressParser.Data.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
   <PropertyGroup>

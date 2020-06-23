@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>NAddressParser.Data</id>
+    <version>0.1.0</version>
+    <authors>Vladimir Korotenko</authors>
+    <owners>Vladimir Korotenko</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">LICENSE.txt</license>
+    <projectUrl>https://github.com/vkorotenko/NAddressParser</projectUrl>
+    <description>Данные для пакета NAddressParser.</description>
+    <releaseNotes>Нормализация ввода данных адреса. Используется оффлайн копия метаданных системы ФИАС. Внимание возможны ошибки, для гарантированной обработки данных используйтесь онлайн сервисами типа DaData или подобными. Впрочем присылайте адреса, будем дорабатывать.</releaseNotes>
+    <copyright>Vladimir Korotenko</copyright>
+    <tags>russian address offline normalization</tags>
+    <repository type="git" url="https://github.com/vkorotenko/NAddressParser" />
+  </metadata>
+  <files>
+    <file src="LICENSE.txt" target="" />
+    <file src="Data\**" target="contentFiles" />
+  </files>
+</package>

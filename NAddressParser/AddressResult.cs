@@ -18,10 +18,10 @@ namespace NAddressParser
     /// </summary>
     public class AddressResult
     {
-        private AddressParser _parser;
+        private readonly AddressParser _parser;
         private const string CountryLabel = "Россия";
         private const int IndexLength = 6;
-        private List<string> _regions;
+        private readonly List<string> _regions;
         /// <summary>
         /// Нормализация строки адреса
         /// </summary>
@@ -29,6 +29,7 @@ namespace NAddressParser
         /// <param name="address">Строка адреса для нормализации</param>
         public AddressResult(AddressParser parser, string address)
         {
+            Raw = address;
             _parser = parser;
             _regions = new List<string>(_parser.Socrs.Where(l => l.Level < 4).Select(x => x.Name));
             _regions.AddRange(_parser.Socrs.Where(l => l.Level < 4).Select(x => x.Abr));
@@ -46,8 +47,6 @@ namespace NAddressParser
                 address = ReplaceIndex(address, line);
                 address = ReplaceCountry(address, line);
             }
-
-            address = address.Trim();
             if (address.Contains(","))
             {
                 entrees = address.Split(new[] { ", " }, StringSplitOptions.None);
@@ -91,7 +90,7 @@ namespace NAddressParser
                 s = s.Replace(region, "").Trim().ToUpperInvariant();
                 var r = _parser.Regions.First(x => x.Name.ToUpperInvariant() == s);
                 RegionObj = r;
-                RegionObj.FullName = _parser.Socrs.First(x=>x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant()).Name;
+                RegionObj.FullName = _parser.Socrs.First(x => x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant()).Name;
                 HasRegion = true;
                 Region = r.Name;
                 return ReplaceSubstring(address, orig);
@@ -128,16 +127,22 @@ namespace NAddressParser
             var end = pos + entry.Length + 1;
             if (end > src.Length)
                 end--;
-            return start + src.Substring(end).Trim();
+            return (start + src.Substring(end)).Trim();
         }
+
+        #region Свойства
+
         /// <summary>
         /// Адрес является пустой строкой.
         /// </summary>
         public bool IsEmpty { get; private set; }
+        #region Страна
         /// <summary>
         /// Страна, всегда равна Россия
         /// </summary>
         public string Country { get; set; } = CountryLabel;
+        #endregion
+        #region Почтовый индекс
         /// <summary>
         /// Почтовый индекс
         /// </summary>
@@ -146,6 +151,8 @@ namespace NAddressParser
         /// Адрес содержит индекс
         /// </summary>
         public bool HasIndex { get; private set; }
+        #endregion
+        #region Регион
         /// <summary>
         /// Регион, может быть пустым для городов федерального уровня
         /// </summary>
@@ -160,6 +167,8 @@ namespace NAddressParser
         /// Определен регион
         /// </summary>
         public bool HasRegion { get; set; }
+        #endregion
+        #region Город
         /// <summary>
         /// Город
         /// </summary>
@@ -168,6 +177,11 @@ namespace NAddressParser
         /// Есть город
         /// </summary>
         public bool HasCity { get; set; }
-
+        #endregion
+        /// <summary>
+        /// Изначально переданный адрес без обработки
+        /// </summary>
+        public string Raw { get; set; }
+        #endregion
     }
 }
