@@ -33,5 +33,9 @@ namespace NAddressParser
         /// Архив объектов
         /// </summary>
         public const string ObjectsZip = "objects.zip";
+        /// <summary>
+        /// Файл с заменами строк. 
+        /// </summary>
+        public const string Replaces = "replaces.txt";
     }
 }

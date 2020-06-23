@@ -26,5 +26,27 @@ namespace NAddressParser
             if (word == null) return false;
             return CultureInfo.CurrentCulture.CompareInfo.IndexOf(paragraph, word, CompareOptions.IgnoreCase) >= 0;
         }
+        /// <summary>
+        /// Перезапись без учета регистра
+        /// </summary>
+        /// <param name="src">Исходная строка</param>
+        /// <param name="what">Что ищем</param>
+        /// <param name="that">Чем перезаписываем</param>
+        /// <returns></returns>
+        public static string ReplaceIgnoreCase(this string src, string what, string that)
+        {
+            var start = CultureInfo.CurrentCulture.CompareInfo.IndexOf(src, what, CompareOptions.IgnoreCase);
+            string result;
+            if (start == 0)
+            {
+                result = that + src.Substring(what.Length);
+            }
+            else
+            {
+                result = src.Substring(0, start) + that + src.Substring(start + what.Length);
+            }
+
+            return result;
+        }
     }
 }

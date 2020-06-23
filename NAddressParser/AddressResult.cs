@@ -88,12 +88,15 @@ namespace NAddressParser
             {
                 if (string.IsNullOrWhiteSpace(region)) continue;
                 s = s.Replace(region, "").Trim().ToUpperInvariant();
-                var r = _parser.Regions.First(x => x.Name.ToUpperInvariant() == s);
-                RegionObj = r;
-                RegionObj.FullName = _parser.Socrs.First(x => x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant()).Name;
-                HasRegion = true;
-                Region = r.Name;
-                return ReplaceSubstring(address, orig);
+                var r = _parser.Regions.FirstOrDefault(x => x.Name.ToUpperInvariant() == s);
+                if (r != null)
+                {
+                    RegionObj = r;
+                    RegionObj.FullName = _parser.Socrs.First(x => x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant()).Name;
+                    HasRegion = true;
+                    Region = r.Name;
+                    return ReplaceSubstring(address, orig);
+                }
             }
             return address;
         }

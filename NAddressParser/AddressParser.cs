@@ -6,11 +6,14 @@
 // // Создано:  20.06.2020 14:04
 #endregion
 
-using System;
+using NAddressParser.Interfaces;
 using NAddressParser.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace NAddressParser
 {
@@ -25,6 +28,7 @@ namespace NAddressParser
         public AddressParser()
         {
             LoadDictionary();
+            LoadReplaces();
         }
         /// <summary>
         /// Инициализация с загрузкой словарей из пользовательской папки. 
@@ -34,6 +38,32 @@ namespace NAddressParser
         {
             DictionaryPath = dictionaryPath;
             LoadDictionary();
+            LoadReplaces();
+        }
+
+        private void LoadReplaces()
+        {
+            var data = File.ReadAllLines(Path.Combine(DictionaryPath, FileNames.Replaces));
+            foreach (var s in data)
+            {
+                var line = s.Trim();
+                if (line.StartsWith("#") || line.StartsWith("//") || !line.Contains("#;")) continue;
+                var kv = line.Split(new[] { "#;" }, StringSplitOptions.None);
+                Replaces.Add(kv[0].ToUpperInvariant(), kv[1]);
+            }
+        }
+
+        /// <summary>
+        /// Список модулей расширения парсера.
+        /// </summary>
+        public IList<IAddressFix> Fixers { get; private set; } = new List<IAddressFix>();
+        /// <summary>
+        /// Добавляет фиксер для обработки адресов. 
+        /// </summary>
+        /// <param name="fixer"></param>
+        public void AddFixer(IAddressFix fixer)
+        {
+            Fixers.Add(fixer);
         }
         private void LoadDictionary()
         {
@@ -81,6 +111,10 @@ namespace NAddressParser
         /// Сокращения
         /// </summary>
         public Socr[] Socrs { get; private set; }
+        /// <summary>
+        /// Словарь перезаписей строк.
+        /// </summary>
+        public Dictionary<string, string> Replaces { get; private set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Обработка не нормализованной строки адреса.
@@ -88,6 +122,14 @@ namespace NAddressParser
         /// <param name="address"></param>
         public AddressResult Parse(string address)
         {
+            foreach (var key in Replaces.Keys.Where(key => address.ToUpperInvariant().Contains(key)))
+            {
+                address = address.ReplaceIgnoreCase(key, Replaces[key]);
+                break;
+            }
+            if (Replaces.ContainsKey(address.ToUpperInvariant()))
+                address = Replaces[address];
+            address = Fixers.Aggregate(address, (current, fix) => fix.Fix(current));
             return new AddressResult(this, address);
         }
     }
