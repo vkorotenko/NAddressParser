@@ -92,7 +92,18 @@ namespace NAddressParser
                 if (r != null)
                 {
                     RegionObj = r;
-                    RegionObj.FullName = _parser.Socrs.First(x => x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant()).Name;
+                    if (r.Prefix == "край.") r.Prefix = "край";
+                    if (r.Prefix == "АО.") r.Prefix = "АО";
+                    var regSocr = _parser.Socrs.First(x => x.Abr != null && x.Abr.ToUpperInvariant() == r.Prefix.ToUpperInvariant());
+                    if (regSocr != null)
+                    {
+                        RegionObj.FullName = regSocr.Name;
+                    }
+                    else
+                    {
+                        ;
+                    }
+
                     HasRegion = true;
                     Region = r.Name;
                     return ReplaceSubstring(address, orig);
@@ -120,17 +131,37 @@ namespace NAddressParser
         /// <param name="src"></param>
         /// <param name="entry"></param>
         /// <returns></returns>
-        public static string ReplaceSubstring(string src, string entry)
+        public static string ReplaceSubstring(string src, string entry, bool trimComma = true)
         {
-            if (entry.Length > src.Length) return src.Trim();
+            string result;
             var pos = src.IndexOf(entry, StringComparison.Ordinal);
-            if (pos == 0)
-                return src.Substring(entry.Length + 1).Trim();
-            var start = src.Substring(0, pos);
-            var end = pos + entry.Length + 1;
-            if (end > src.Length)
-                end--;
-            return (start + src.Substring(end)).Trim();
+            switch (pos)
+            {
+                case -1:
+                    result = src;
+                    break;
+                case 0:
+                    result = src.Substring(entry.Length);
+                    break;
+                default:
+                    var start = src.Substring(0, pos);
+                    var end = pos + entry.Length;
+                    if (end > src.Length)
+                        end--;
+                    result = (start + src.Substring(end)).Trim();
+                    break;
+            }
+
+            result = result.Trim();
+            if (trimComma)
+            {
+                if (result.Length > 0 && result[0] == ',')
+                    result = result.Substring(1);
+                if (result.Length > 0 && result[result.Length - 1] == ',')
+                    result = result.Substring(0, result.Length - 1);
+            }
+
+            return result.Trim();
         }
 
         #region Свойства

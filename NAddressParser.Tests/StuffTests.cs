@@ -29,12 +29,13 @@ namespace NAddressParser.Tests
         {
             var countryPatern = "Россия, Алтай, 45";
             var country = "Россия";
-            var countryExp = " Алтай, 45";
+            var countryExp = "Алтай, 45";
+            
             var indexPatern  = "Россия, Алтай, 45, 555555";
-            var indexExp = "Россия, Алтай, 45, ";
+            var indexExp = "Россия, Алтай, 45";
 
             var indexinPatern = "Россия, Алтай, 45, 555555, дом";
-            var indexinExp = "Россия, Алтай, 45,  дом";
+            var indexinExp = "Россия, Алтай, 45, , дом";
 
             var result  = AddressResult.ReplaceSubstring(countryPatern, country);
             Assert.AreEqual(result,countryExp);
